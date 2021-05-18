@@ -124,6 +124,8 @@ class PulsarHand : Weapon
 {
 	// Your primary weapon. Also a means of getting around.
 
+	int boost;
+
 	default
 	{
 		Weapon.SlotNumber 1;
@@ -138,7 +140,11 @@ class PulsarHand : Weapon
 			PUNG A 1 A_Lower(); // I don't even think we have any other weapons...
 			Loop;
 		Ready:
-			PUNG A 1 A_WeaponReady();
+			PUNG A 1 
+			{
+				A_WeaponReady();
+				invoker.boost = 0;
+			}
 			Loop;
 		Fire:
 			PUNG D 5
@@ -147,8 +153,7 @@ class PulsarHand : Weapon
 				let pit = invoker.owner.pitch;
 				let ang = invoker.owner.angle;
 				let spd = invoker.owner.vel.Length();
-				invoker.owner.VelFromAngle(cos(pit)*-spd,ang);
-				invoker.owner.vel.z = sin(pit)*spd;
+				invoker.owner.Vel3DFromAngle(-spd,ang,pit);
 				// And now the shot.
 				A_FireProjectile("PulsarBlast");
 				A_StartSound("weapons/pulsf");
@@ -159,13 +164,18 @@ class PulsarHand : Weapon
 			PUNG A 5;
 			Goto Ready;
 		AltFire:
-			PUNG A 4
+			PUNG A 1
 			{
+				// Increase boost.
+				invoker.boost = clamp(0,invoker.boost+1,35);
+
+				// Slow player.
 				Vector3 newvel = invoker.owner.vel;
 				newvel.x = newvel.x * 0.5;
 				newvel.y = newvel.y * 0.5;
-				newvel.z = newvel.z * 0.5;
+				newvel.z = newvel.z * 0.2;
 				invoker.owner.vel = newvel;
+				// Suck in coins.
 				let ti = ThinkerIterator.Create("ScoreItem",STAT_DEFAULT);
 				Thinker mo;
 				while(mo = ti.Next())
@@ -195,6 +205,19 @@ class PulsarHand : Weapon
 					}
 				}
 			}
+			PUNG A 0 A_Refire();
+		AltRelease:
+			PUNG A 0
+			{
+				if(invoker.boost > 15) { return ResolveState(null); } else { return ResolveState("Ready"); }
+			}
+			PUNG D 5
+			{
+				invoker.owner.Vel3DFromAngle(invoker.boost,invoker.owner.angle,invoker.owner.pitch);
+			}
+			PUNG C 4;
+			PUNG B 3;
+			Goto Ready;
 	}
 }
 
