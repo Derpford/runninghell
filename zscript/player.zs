@@ -16,6 +16,19 @@ class HellRunner : DoomPlayer
 		Friction 0.99;
 	}
 
+	override bool CanCollideWith(Actor other, bool passive)
+	{
+		// If you've picked up zerk, you can pass through monsters.
+		if(CountInv("PowerStrength")>0)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+
 	override void Tick()
 	{
 		Super.Tick();
