@@ -19,7 +19,7 @@ To slide, press and hold the CROUCH key while moving. Sliding reduces your frict
 Press the JUMP key while holding a direction, and you'll get a burst of speed in that direction, even while sliding!
 
 3. Pulsar Jump
-Press the FIRE key to shoot a pulsar blast in front of you! Firing a pulsar blast will push you backward. This can be used to launch yourself into the air.
+Press the FIRE key to shoot a pulsar blast in front of you! Firing a pulsar blast will instantly send you flying backward, at whatever your current speed is. This can be used to launch yourself into the air, quickly change direction, and so on.
 
 # Won't this completely break most maps?
 
