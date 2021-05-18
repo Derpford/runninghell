@@ -171,8 +171,8 @@ class PulsarBlast : FastProjectile
 			PLSS AB 4 Bright;
 			Loop;
 		Death:
-			PLSS C 4 Bright A_Explode(128,flags:XF_THRUSTZ);
-			PLSS DE 5 Bright;
+			PLSE A 4 Bright { A_Explode(128,flags:XF_THRUSTZ); A_StartSound("weapons/rocklx"); }
+			PLSE BCDE 5 Bright;
 			Stop;
 	}
 }
@@ -185,12 +185,13 @@ class PulsarTrail : Actor
 	{
 		+NOINTERACTION;
 		RenderStyle "Add";
+		Scale 0.5;
 	}
 
 	states
 	{
 		Spawn:
-			PLSS ABCDE 3 Bright;
+			PLSE ABCDE 3 Bright;
 			Stop;
 	}
 }
