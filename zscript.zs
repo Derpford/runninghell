@@ -4,3 +4,4 @@ version 4.5
 #include "zscript/hud.zs"
 #include "zscript/score.zs"
 #include "zscript/scorehandler.zs"
+#include "zscript/barrel.zs"
