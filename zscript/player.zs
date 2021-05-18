@@ -171,7 +171,12 @@ class PulsarBlast : FastProjectile
 			PLSS AB 4 Bright;
 			Loop;
 		Death:
-			PLSE A 4 Bright { A_Explode(128,flags:XF_THRUSTZ); A_StartSound("weapons/rocklx"); }
+			PLSE A 4 Bright 
+			{ 
+				A_Explode(128,flags:XF_THRUSTZ); 
+				A_StartSound("weapons/rocklx");
+				A_RadiusThrust(flags:RTF_AFFECTSOURCE|RTF_THRUSTZ|RTF_NOIMPACTDAMAGE);
+			}
 			PLSE BCDE 5 Bright;
 			Stop;
 	}
