@@ -26,7 +26,7 @@ class HellRunner : DoomPlayer
 		}
 
 		// Damage is healed...from your score.
-		if(health < 100 && score >= 5)
+		if(health < 100 && score>0)
 		{
 			int amt = min(100-health,5);
 			score -= amt;
@@ -254,7 +254,7 @@ class PulsarBlast : FastProjectile
 		Death:
 			PLSE A 4 Bright 
 			{ 
-				A_Explode(128,flags:XF_THRUSTZ); 
+				A_Explode(256,192,flags:XF_THRUSTZ); 
 				A_StartSound("weapons/rocklx");
 				A_RadiusThrust(flags:RTF_AFFECTSOURCE|RTF_THRUSTZ|RTF_NOIMPACTDAMAGE);
 			}
