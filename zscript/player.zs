@@ -24,7 +24,7 @@ class HellRunner : DoomPlayer
 		{
 			int amt = min(100-health,5);
 			score -= amt;
-			health += amt;
+			A_GiveInventory("Health",amt);
 		}
 
 		// Handle link chains and scoring from that.
@@ -140,7 +140,7 @@ class PulsarHand : Weapon
 				invoker.owner.vel.z = sin(pit)*spd;
 				// And now the shot.
 				A_FireProjectile("PulsarBlast");
-				//A_StartSound("weapons/bfgf");
+				A_StartSound("weapons/pulsf");
 				// TODO: Pick better sound
 			}
 			PUNG C 15;
