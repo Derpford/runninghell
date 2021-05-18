@@ -60,4 +60,30 @@ class ScoreItemPlacer : EventHandler
 		}
 	}
 
+	override void WorldThingDied(WorldEvent e)
+	{
+		// Things drop coins on death based on their health.
+		int amt = e.Thing.SpawnHealth();
+		while(amt>0)
+		{
+			double xv = frandom(-8,8); double yv = frandom(-8,8);
+			double zv = frandom(4,12);
+			string it = "CoinCopper";
+			if(amt>20) 
+			{ 
+				it = "CoinGold";
+				amt -= 20;
+			}
+			else if(amt>10)
+			{
+				it = "CoinSilver";
+				amt -= 10;
+			}
+			else
+			{
+				amt -= 5;
+			}
+			e.Thing.A_SpawnItemEX(it,xvel:xv,yvel:yv,zvel:zv);
+		}
+	}
 }
