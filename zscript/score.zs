@@ -18,7 +18,7 @@ class TimedBonus : ScoreItem
 	{
 		console.printf("Age "..GetAge());
 		console.printf("Decay "..DecayRate);
-		amount = BaseScore - Floor(GetAge()/DecayRate);
+		amount = Max(BaseScore - Floor(GetAge()/DecayRate),MinScore);
 		//return super.TryPickup(toucher);
 		return true;
 	}
