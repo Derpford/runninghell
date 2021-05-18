@@ -18,6 +18,12 @@ class HellRunner : DoomPlayer
 	override void Tick()
 	{
 		Super.Tick();
+		console.printf(vel.Length().." speed");
+		// Add a damage aura when the player is above a certain speed.
+		if(vel.Length()>10)
+		{
+			A_Explode(ceil(vel.Length()*(1.5+CountInv("PowerStrength"))),vel.Length()*3+radius,flags:XF_NOTMISSILE,fulldamagedistance:radius);
+		}
 
 		// Damage is healed...from your score.
 		if(health < 100 && score >= 5)
