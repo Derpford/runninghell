@@ -33,7 +33,12 @@ class HellrunnerHUD : BaseStatusBar
 		DrawString(mBigFont,FormatNumber(plr.score,10),(0,-32),btxtflags,Font.CR_BRICK);
 
 		// The speedometer.
-		DrawString(mBigFont,FormatNumber(plr.vel.Length(),5),(0,-96),btxtflags,Font.CR_RED);
+		let velCol = Font.CR_RED;
+		if(plr.vel.Length()<10)
+		{
+			velCol = Font.CR_BLUE;
+		}
+		DrawString(mBigFont,FormatNumber(plr.vel.Length(),5),(0,-96),btxtflags,velCol);
 
 		if(plr.linkcount > 0)
 		{
