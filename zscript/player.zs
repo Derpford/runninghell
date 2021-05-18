@@ -65,7 +65,6 @@ class HellRunner : DoomPlayer
 		{
 			// Slide!
 			friction = 1.08;
-			slideframes = 35;
 			if(!(oldbtn & BT_CROUCH) && slideframes < 1 && isMoving)
 			{
 				// Sliding gives you a slight boost in your movement direction,
@@ -74,6 +73,14 @@ class HellRunner : DoomPlayer
 				// If you don't input a direction, you don't get a slide.
 				Thrust(5,ang+angle);
 			}
+
+			// And pseudo-trimping.
+			if(vel.z<0 && abs(vel.z)*2.0>abs(floorz-pos.z) && slideframes > 15)
+			{
+				Thrust(-vel.z*0.5,ang+angle);
+				vel.z *= 0.5;
+			}
+			slideframes = 35;
 		}
 		else if(slideframes < 15)
 		{
