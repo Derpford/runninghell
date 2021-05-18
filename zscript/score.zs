@@ -125,3 +125,67 @@ class GemSmall : TimedBonus
 			Loop;
 	}
 }
+
+class GemMedium : GemSmall
+{
+	// A slightly larger gemstone.
+
+	default
+	{
+		Inventory.PickupMessage "Gemstone!";
+		Scale 1.5;
+		TimedBonus.Score 200,100;
+		TimedBonus.Decay 35;
+	}
+
+	states
+	{
+		Idle1:
+			GEM2 A 1;
+			Loop;
+		Idle2:
+			GEM2 B 1;
+			Loop;
+		Idle3:
+			GEM2 C 1;
+			Loop;
+		Idle4:
+			GEM2 D 1;
+			Loop;
+		Idle5:
+			GEM2 E 1;
+			Loop;
+	}
+}
+
+class GemLarge : GemSmall
+{
+	// A beeg gemstone.
+
+	default
+	{
+		Inventory.PickupMessage "Gemstone!";
+		Scale 2.0;
+		TimedBonus.Score 400,200;
+		TimedBonus.Decay 20;
+	}
+
+	states
+	{
+		Idle1:
+			GEM3 A 1;
+			Loop;
+		Idle2:
+			GEM3 B 1;
+			Loop;
+		Idle3:
+			GEM3 C 1;
+			Loop;
+		Idle4:
+			GEM3 D 1;
+			Loop;
+		Idle5:
+			GEM3 E 1;
+			Loop;
+	}
+}

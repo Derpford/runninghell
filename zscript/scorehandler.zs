@@ -6,17 +6,49 @@ class ScoreItemPlacer : EventHandler
 
 	override void CheckReplacement(ReplaceEvent e)
 	{
+		// Coin replacements
 		if(e.Replacee is "HealthBonus" || e.Replacee is "ArmorBonus")
 		{
 			e.Replacement = "CoinCopper";
 		}
-		else if(e.Replacee is "Ammo")
+		if(e.Replacee is "Ammo")
 		{
 			e.Replacement = "CoinSilver";
 		}
-		else if(e.Replacee is "Health")
+		if(e.Replacee is "Health")
 		{
 			e.Replacement = "CoinGold";
+		}
+
+		// Weapon replacements
+		if(e.Replacee is "Weapon")
+		{
+			if(e.Replacee is "Pistol" || e.Replacee is "Shotgun" || e.Replacee is "Chaingun")
+			{
+				e.Replacement = "GemSmall";
+			}
+			if(e.Replacee is "SuperShotgun" || e.Replacee is "RocketLauncher")
+			{
+				e.Replacement = "GemMedium";
+			}
+			if(e.Replacee is "PlasmaRifle" || e.Replacee is "Chainsaw" || e.Replacee is "BFG9000")
+			{
+				e.Replacement = "GemLarge";
+			}
+		}
+
+		// Armor replacements
+		if(e.Replacee is "Armor")
+		{
+			if(e.Replacee is "GreenArmor")
+			{
+				e.Replacement = "GemMedium";
+			}
+
+			if(e.Replacee is "BlueArmor")
+			{
+				e.Replacement = "GemLarge";
+			}
 		}
 	}
 
