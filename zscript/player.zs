@@ -19,6 +19,14 @@ class HellRunner : DoomPlayer
 	{
 		Super.Tick();
 
+		// Damage is healed...from your score.
+		if(health < 100 && score >= 5)
+		{
+			int amt = min(100-health,5);
+			score -= amt;
+			health += amt;
+		}
+
 		// Handle link chains and scoring from that.
 		linktimer = max(linktimer-1,0);
 
