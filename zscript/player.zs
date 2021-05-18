@@ -117,7 +117,7 @@ class PulsarHand : Weapon
 	}
 }
 
-class PulsarBlast : Actor
+class PulsarBlast : FastProjectile
 {
 	// Burst of plasma goodness.
 
@@ -127,6 +127,9 @@ class PulsarBlast : Actor
 		PROJECTILE;
 		RenderStyle "Add";
 		DamageFunction 60;
+		Scale 2;
+		MissileType "PulsarTrail";
+		MissileHeight 8;
 	}
 
 	states
@@ -135,8 +138,26 @@ class PulsarBlast : Actor
 			PLSS AB 4 Bright;
 			Loop;
 		Death:
-			PLSS C 4 Bright A_Explode();
+			PLSS C 4 Bright A_Explode(128,flags:XF_THRUSTZ);
 			PLSS DE 5 Bright;
+			Stop;
+	}
+}
+
+class PulsarTrail : Actor
+{
+	// A long tail for the Pulsar shot.
+
+	default
+	{
+		+NOINTERACTION;
+		RenderStyle "Add";
+	}
+
+	states
+	{
+		Spawn:
+			PLSS ABCDE 3 Bright;
 			Stop;
 	}
 }
