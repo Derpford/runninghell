@@ -28,7 +28,10 @@ When you start a slide, you get a brief burst of speed. This can happen once per
 If you need to get up high, crouch and jump without pressing any movement keys. Combine with a Pulsar Jump off of a wall for even *MORE* height!
 
 6. Vacuum Brake:
-Press and hold the ALTFIRE key to slow yourself to a crawl, sucking in nearby coins in the process. Note that this won't suck in gems--you have to pick those up the hard way.
+Press and hold the ALTFIRE key to slow yourself to a crawl, sucking in nearby coins in the process. Note that this won't suck in gems--you have to pick those up the hard way. Holding this for just over half a second will enable a Vacuum Dash in the direction you're currently facing. You can charge a Vacuum Dash for up to 1 second.
+
+7. Trim Pulse
+Press the CROUCH key as you're landing to convert vertical fall speed to forward speed!
 
 # Won't this completely break most maps?
 
