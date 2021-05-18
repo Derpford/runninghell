@@ -27,6 +27,9 @@ When you start a slide, you get a brief burst of speed. This can happen once per
 5. Super Jump:
 If you need to get up high, crouch and jump without pressing any movement keys. Combine with a Pulsar Jump off of a wall for even *MORE* height!
 
+6. Vacuum Brake:
+Press and hold the ALTFIRE key to slow yourself to a crawl, sucking in nearby coins in the process. Note that this won't suck in gems--you have to pick those up the hard way.
+
 # Won't this completely break most maps?
 
 Yes! The goal of this mod is to create a movement-centric experience, as opposed to the combat-centric way most doom mods work. Sure, you might feel that putting the focus on sick jumps over big guns is the opposite of doom-y, and that's all right. I'm not making this thing to be doom-y. I'm making it to be goofy.
