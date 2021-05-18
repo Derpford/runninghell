@@ -3,6 +3,7 @@ class HellRunner : DoomPlayer
 	// The star of the show.
 
 	int slideframes;
+	int justslide;
 	int jumpframes;
 
 	int linkcount;
@@ -58,6 +59,7 @@ class HellRunner : DoomPlayer
 
 		// Tick down timers.
 		slideframes = max(slideframes-1,0);
+		justslide = max(justslide-1,0);
 		jumpframes = max(jumpframes-1,0);
 
 		// Handle sliding.
@@ -65,6 +67,7 @@ class HellRunner : DoomPlayer
 		{
 			// Slide!
 			friction = 1.08;
+			if(!(oldbtn & BT_CROUCH)) { justslide = 35; }
 			if(!(oldbtn & BT_CROUCH) && slideframes < 1 && isMoving)
 			{
 				// Sliding gives you a slight boost in your movement direction,
@@ -75,7 +78,7 @@ class HellRunner : DoomPlayer
 			}
 
 			// And pseudo-trimping.
-			if(vel.z<0 && abs(vel.z)*2.0>abs(floorz-pos.z) && slideframes > 15)
+			if(vel.z<0 && abs(vel.z)*2.0>abs(floorz-pos.z) && justslide > 15)
 			{
 				Thrust(-vel.z*0.5,ang+angle);
 				vel.z *= 0.5;
