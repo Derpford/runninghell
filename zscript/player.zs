@@ -107,6 +107,8 @@ class PulsarHand : Weapon
 				invoker.owner.vel.z = sin(pit)*spd;
 				// And now the shot.
 				A_FireProjectile("PulsarBlast");
+				//A_StartSound("weapons/bfgf");
+				// TODO: Pick better sound
 			}
 			PUNG C 15;
 			PUNG B 10;
