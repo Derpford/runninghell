@@ -32,6 +32,9 @@ class HellrunnerHUD : BaseStatusBar
 		// The score.
 		DrawString(mBigFont,FormatNumber(plr.score,10),(0,-32),btxtflags,Font.CR_BRICK);
 
+		// The speedometer.
+		DrawString(mBigFont,FormatNumber(plr.vel.Length(),5),(0,-96),btxtflags,Font.CR_RED);
+
 		if(plr.linkcount > 0)
 		{
 			// The current link count.

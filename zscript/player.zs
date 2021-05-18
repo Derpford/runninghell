@@ -18,7 +18,6 @@ class HellRunner : DoomPlayer
 	override void Tick()
 	{
 		Super.Tick();
-		console.printf(vel.Length().." speed");
 		// Add a damage aura when the player is above a certain speed.
 		if(vel.Length()>10)
 		{
