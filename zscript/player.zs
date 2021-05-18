@@ -168,10 +168,10 @@ class PulsarHand : Weapon
 					let act = Actor(mo);
 					let inv = Inventory(mo);
 					bool isCoin = mo is "CoinCopper" || mo is "CoinSilver" || mo is "CoinGold";
-					if(isCoin && CheckIfCloser(act,128,true))
+					if(isCoin && CheckIfCloser(act,256,true))
 					{
 						console.printf(mo.GetClassName());
-						act.VelIntercept(invoker.owner,20);
+						act.VelIntercept(invoker.owner,30);
 
 						let btn = invoker.owner.GetPlayerInput(INPUT_BUTTONS);
 						bool isMoving = btn & (BT_FORWARD | BT_BACK | BT_MOVELEFT | BT_MOVERIGHT);
