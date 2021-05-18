@@ -27,6 +27,7 @@ class HellrunnerHUD : BaseStatusBar
 
 		int btxtflags = DI_SCREEN_CENTER_BOTTOM|DI_TEXT_ALIGN_CENTER;
 		int ttxtflags = DI_SCREEN_CENTER|DI_TEXT_ALIGN_CENTER;
+		int cbarflags = DI_SCREEN_CENTER_BOTTOM|DI_ITEM_CENTER_BOTTOM;
 
 		// The score.
 		DrawString(mBigFont,FormatNumber(plr.score,10),(0,-32),btxtflags,Font.CR_BRICK);
@@ -36,6 +37,23 @@ class HellrunnerHUD : BaseStatusBar
 			// The current link count.
 			DrawString(mBigFont,"LINK "..plr.linkcount,(0,-128),ttxtflags,Font.CR_CYAN);
 			Fill(color(128,128,128,255),-plr.linktimer,-140,plr.linktimer*2,16,ttxtflags|DI_ITEM_CENTER_BOTTOM);
+		}
+
+
+		// Keys.
+		String keySprites[6] =
+		{
+			"STKEYS2",
+			"STKEYS0",
+			"STKEYS1",
+			"STKEYS5",
+			"STKEYS3",
+			"STKEYS4"
+		};
+
+		for(int i = 0; i < 6; i++)
+		{
+			if(CPlayer.mo.CheckKeys(i+1,false,true)) { DrawImage(keySprites[i],(-40+(16*i),-56),cbarflags,scale:(2,2)); }
 		}
 	}
 
