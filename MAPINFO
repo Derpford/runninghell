@@ -2,4 +2,5 @@ gameinfo
 {
 	PlayerClasses = "Hellrunner"
 	AddEventHandlers = "ScoreItemPlacer"
+	StatusBarClass = "HellrunnerHUD"
 }

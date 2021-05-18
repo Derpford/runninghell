@@ -5,6 +5,9 @@ class HellRunner : DoomPlayer
 	int slideframes;
 	int jumpframes;
 
+	int linkcount;
+	int linktimer;
+
 	default
 	{
 		Player.StartItem "PulsarHand";
@@ -16,6 +19,14 @@ class HellRunner : DoomPlayer
 	{
 		Super.Tick();
 
+		// Handle link chains and scoring from that.
+		linktimer = max(linktimer-1,0);
+
+		if(linktimer < 1 && linkcount > 0)
+		{
+			A_GiveInventory("ScoreItem",linkcount);
+			linkcount = max(linkcount-1,0);
+		}
 		// Now let's handle special inputs.
 
 		// Raw inputs.
@@ -72,6 +83,20 @@ class HellRunner : DoomPlayer
 				vel.z += 20;
 				jumpframes = 35;
 			}
+		}
+	}
+
+	override bool CanTouchItem(Inventory item)
+	{
+		if(super.CanTouchItem(item))
+		{
+			linkcount += 1;
+			linktimer = 70;
+			return true;
+		}
+		else
+		{
+			return false;
 		}
 	}
 }
