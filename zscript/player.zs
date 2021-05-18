@@ -105,10 +105,36 @@ class PulsarHand : Weapon
 				let spd = invoker.owner.vel.Length();
 				invoker.owner.VelFromAngle(cos(pit)*-spd,ang);
 				invoker.owner.vel.z = sin(pit)*spd;
+				// And now the shot.
+				A_FireProjectile("PulsarBlast");
 			}
 			PUNG C 15;
 			PUNG B 10;
 			PUNG A 5;
 			Goto Ready;
+	}
+}
+
+class PulsarBlast : Actor
+{
+	// Burst of plasma goodness.
+
+	default
+	{
+		Speed 50;
+		PROJECTILE;
+		RenderStyle "Add";
+		DamageFunction 60;
+	}
+
+	states
+	{
+		Spawn:
+			PLSS AB 4 Bright;
+			Loop;
+		Death:
+			PLSS C 4 Bright A_Explode();
+			PLSS DE 5 Bright;
+			Stop;
 	}
 }
