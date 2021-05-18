@@ -94,12 +94,18 @@ class HellRunner : DoomPlayer
 		}
 	}
 
+	void LinkUp()
+	{
+		// Standardized way of increasing Link Count.
+		linkcount += 1;
+		linktimer = 70;
+	}
+
 	override bool CanTouchItem(Inventory item)
 	{
 		if(super.CanTouchItem(item))
 		{
-			linkcount += 1;
-			linktimer = 70;
+			LinkUp();
 			return true;
 		}
 		else
@@ -147,6 +153,43 @@ class PulsarHand : Weapon
 			PUNG B 10;
 			PUNG A 5;
 			Goto Ready;
+		AltFire:
+			PUNG A 4
+			{
+				Vector3 newvel = invoker.owner.vel;
+				newvel.x = newvel.x * 0.5;
+				newvel.y = newvel.y * 0.5;
+				newvel.z = newvel.z * 0.5;
+				invoker.owner.vel = newvel;
+				let ti = ThinkerIterator.Create("ScoreItem",STAT_DEFAULT);
+				Thinker mo;
+				while(mo = ti.Next())
+				{
+					let act = Actor(mo);
+					let inv = Inventory(mo);
+					bool isCoin = mo is "CoinCopper" || mo is "CoinSilver" || mo is "CoinGold";
+					if(isCoin && CheckIfCloser(act,128,true))
+					{
+						console.printf(mo.GetClassName());
+						act.VelIntercept(invoker.owner,20);
+
+						let btn = invoker.owner.GetPlayerInput(INPUT_BUTTONS);
+						bool isMoving = btn & (BT_FORWARD | BT_BACK | BT_MOVELEFT | BT_MOVERIGHT);
+
+						if(!isMoving
+						&& act.Vec2To(invoker.owner).Length()<invoker.owner.radius
+						&& act.pos.z < invoker.owner.pos.z+invoker.owner.height
+						&& act.pos.z+act.height > invoker.owner.pos.z)
+						{
+							// All that just to simulate giving an item.
+							let plr = HellRunner(invoker.owner);
+							invoker.owner.A_GiveInventory(mo.GetClassName(),inv.amount);
+							plr.LinkUp();
+							act.A_Remove(AAPTR_DEFAULT,RMVF_EVERYTHING);
+						}
+					}
+				}
+			}
 	}
 }
 
