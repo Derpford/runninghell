@@ -34,7 +34,7 @@ class HellrunnerHUD : BaseStatusBar
 
 		// The speedometer.
 		let velCol = Font.CR_RED;
-		if(plr.vel.Length()<10)
+		if(plr.vel.Length()<15)
 		{
 			velCol = Font.CR_BLUE;
 		}

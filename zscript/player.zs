@@ -33,9 +33,9 @@ class HellRunner : DoomPlayer
 	{
 		Super.Tick();
 		// Add a damage aura when the player is above a certain speed.
-		if(vel.Length()>10)
+		if(vel.Length()>15)
 		{
-			A_Explode(ceil(vel.Length()*(1.5+CountInv("PowerStrength"))),vel.Length()*3+radius,flags:XF_NOTMISSILE,fulldamagedistance:radius);
+			A_Explode(ceil(vel.Length()*(1.5+CountInv("PowerStrength"))),vel.Length()*3+radius,flags:XF_NOTMISSILE,fulldamagedistance:radius,damagetype:"speedforce");
 		}
 
 		// Damage is healed...from your score.
@@ -107,10 +107,11 @@ class HellRunner : DoomPlayer
 		// Handle special jumping cases.
 		if(btn & BT_JUMP && floorz - pos.z == 0)
 		{
-			if(isMoving && jumpframes < 1)
+			if(isMoving && jumpframes < 1 && vel.z == 0)
 			{
 				// Jumping while moving gives a boost.
-				Thrust(1,ang+angle);
+				Thrust(3,ang+angle);
+				vel.z += 2;
 			} 
 			else if(!isMoving && btn & BT_CROUCH && jumpframes < 1)
 			{
@@ -267,7 +268,7 @@ class PulsarBlast : FastProjectile
 		Death:
 			PLSE A 4 Bright 
 			{ 
-				A_Explode(256,192,flags:XF_THRUSTZ); 
+				A_Explode(192,128,flags:XF_THRUSTZ); 
 				A_StartSound("weapons/rocklx");
 				A_RadiusThrust(flags:RTF_AFFECTSOURCE|RTF_THRUSTZ|RTF_NOIMPACTDAMAGE);
 			}
