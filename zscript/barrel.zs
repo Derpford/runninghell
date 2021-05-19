@@ -5,6 +5,7 @@ class BouncingBarrel : Actor replaces ExplosiveBarrel
 	default
 	{
 		Health 20;
+		Mass 1;
 		+SHOOTABLE;
 		+NOBLOOD;
 		+ACTIVATEMCROSS;
@@ -12,6 +13,7 @@ class BouncingBarrel : Actor replaces ExplosiveBarrel
 		+DONTGIB;
 		+SOLID;
 		+OLDRADIUSDMG; // We kinda need all the old flags because some maps rely on them for pseudoscripting.
+		Damagefactor "SpeedForce", 0;
 	}
 
 	states
@@ -23,8 +25,9 @@ class BouncingBarrel : Actor replaces ExplosiveBarrel
 			BAR1 A 1
 			{
 				invoker.A_StartSound("weapons/rocketf");
-				A_RadiusThrust();
-				vel.z = 20;
+				bTHRUACTORS = true;
+				A_RadiusThrust(32,128);
+				vel.z += 10;
 			}
 		DeathLoop:
 			BAR1 AB 3;
