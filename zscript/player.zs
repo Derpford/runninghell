@@ -36,9 +36,14 @@ class HellRunner : DoomPlayer
 		Super.Tick();
 
 		// Track our falling speed.
-		if(vel.z != 0.0)
+		if(!player.onground && vel.z != 0.0)
 		{
 			fallSpeed = vel.z;
+		}
+
+		if(player.onground && fallSpeed != 0)
+		{
+			fallSpeed -= fallSpeed/abs(fallSpeed); // Either -1 or 1 depending on fallSpeed's sign
 		}
 
 		// Add a damage aura when the player is above a certain speed.
