@@ -191,9 +191,7 @@ class HellRunner : DoomPlayer
 			{
 				// Jumping while moving gives a boost.
 				double ang2 = atan2(vel.y,vel.x);	
-				console.printf("DA: "..DeltaAngle(ang+angle, ang2));
 				double diffvel = vel.Length() * (abs(180.0-abs(DeltaAngle(ang+angle,ang2)))/180.0);
-				console.printf("DiffVel: "..diffvel);
 				if(diffvel < 12)
 				{
 					VelFromAngle(15,ang+angle);
