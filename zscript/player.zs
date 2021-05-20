@@ -104,14 +104,46 @@ class HellRunner : DoomPlayer
 			friction = 0.99;
 		}
 
-		// Handle special jumping cases.
+	}
+
+	override void CheckJump()
+	{
+		let btn = GetPlayerInput(INPUT_BUTTONS);
+		bool isMoving = btn & (BT_FORWARD | BT_BACK | BT_MOVELEFT | BT_MOVERIGHT);
+		double xv = 0.0; double yv = 0.0; double ang = 0.0;
+		if(isMoving)
+		{
+			xv = GetPlayerInput(MODINPUT_FORWARDMOVE)/12800.0;
+			yv = GetPlayerInput(MODINPUT_SIDEMOVE)/10240.0;
+			ang = atan2(-yv,xv);
+		}
+
 		if(btn & BT_JUMP && floorz - pos.z == 0)
 		{
-			if(isMoving && jumpframes < 1 && vel.z == 0)
+			if(waterlevel >= 2)
+			{
+				// Swimming overrides everything.
+				vel.z = 4 * speed;
+				return;
+			}
+
+			// Handle special jumping cases.
+			if(isMoving && jumpframes < 1 && player.onground)
 			{
 				// Jumping while moving gives a boost.
-				Thrust(3,ang+angle);
-				vel.z += 2;
+				double ang2 = atan2(vel.y,vel.x);	
+				console.printf("DA: "..DeltaAngle(ang+angle, ang2));
+				double diffvel = vel.Length() * (abs(180.0-abs(DeltaAngle(ang+angle,ang2)))/180.0);
+				console.printf("DiffVel: "..diffvel);
+				if(diffvel < 12)
+				{
+					VelFromAngle(15,ang+angle);
+				}
+				else
+				{
+					Thrust(3,ang+angle);
+				}
+				vel.z += 8;
 			} 
 			else if(!isMoving && btn & BT_CROUCH && jumpframes < 1)
 			{
@@ -119,6 +151,10 @@ class HellRunner : DoomPlayer
 				// you do a super jump.
 				vel.z += 20;
 				jumpframes = 35;
+			}
+			else if(player.onground)
+			{
+				vel.z += 10;
 			}
 		}
 	}
