@@ -9,6 +9,8 @@ class HellRunner : DoomPlayer
 	int linkcount;
 	int linktimer;
 
+	double fallSpeed;
+
 	default
 	{
 		Player.StartItem "PulsarHand";
@@ -32,6 +34,13 @@ class HellRunner : DoomPlayer
 	override void Tick()
 	{
 		Super.Tick();
+
+		// Track our falling speed.
+		if(vel.z != 0.0)
+		{
+			fallSpeed = vel.z;
+		}
+
 		// Add a damage aura when the player is above a certain speed.
 		if(vel.Length()>15)
 		{
@@ -130,10 +139,10 @@ class HellRunner : DoomPlayer
 				}
 
 				// And pseudo-trimping.
-				if(vel.z<0 && abs(vel.z)*2.0>abs(floorz-pos.z) && justslide > 15)
+				if(fallSpeed<0 && plr.onground && justslide > 15)
 				{
-					Thrust(-vel.z*0.5,ang+angle);
-					vel.z *= 0.5;
+					Thrust(-fallSpeed,ang+angle);
+					fallSpeed = 0;
 				}
 				slideframes = 35;
 			}
