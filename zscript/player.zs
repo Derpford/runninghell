@@ -75,36 +75,81 @@ class HellRunner : DoomPlayer
 		justslide = max(justslide-1,0);
 		jumpframes = max(jumpframes-1,0);
 
-		// Handle sliding.
-		if(btn & BT_CROUCH)
-		{
-			// Slide!
-			friction = 1.08;
-			if(!(oldbtn & BT_CROUCH)) { justslide = 35; }
-			if(!(oldbtn & BT_CROUCH) && slideframes < 1 && isMoving)
-			{
-				// Sliding gives you a slight boost in your movement direction,
-				// but only if you haven't done a slide boost within the past second.
-				// No spam 4 u.
-				// If you don't input a direction, you don't get a slide.
-				Thrust(5,ang+angle);
-			}
-
-			// And pseudo-trimping.
-			if(vel.z<0 && abs(vel.z)*2.0>abs(floorz-pos.z) && justslide > 15)
-			{
-				Thrust(-vel.z*0.5,ang+angle);
-				vel.z *= 0.5;
-			}
-			slideframes = 35;
-		}
-		else if(slideframes < 15)
-		{
-			// Friction only resets a certain amount of time *after* leaving a slide.
-			friction = 0.99;
-		}
 
 	}
+
+	override void CheckCrouch(bool totallyfrozen)
+	{
+		let btn = GetPlayerInput(INPUT_BUTTONS);
+		let oldbtn = GetPlayerInput(INPUT_OLDBUTTONS);
+		bool isMoving = btn & (BT_FORWARD | BT_BACK | BT_MOVELEFT | BT_MOVERIGHT);
+		double xv = 0.0; double yv = 0.0; double ang = 0.0;
+		if(isMoving)
+		{
+			xv = GetPlayerInput(MODINPUT_FORWARDMOVE)/12800.0;
+			yv = GetPlayerInput(MODINPUT_SIDEMOVE)/10240.0;
+			ang = atan2(-yv,xv);
+		}
+		let plr = self.player;
+
+		if(!totallyfrozen && CanCrouch() && plr.health > 0)
+		{
+			// I have no idea what this logic is, but it's how the default works.
+			int crouchdir = plr.crouching;
+
+			if(crouchdir == 0)
+			{
+				crouchdir = (btn & BT_CROUCH) ? -1 : 1;
+			}
+			else if(btn & BT_CROUCH)
+			{
+				plr.crouching = 0;
+			}
+
+			if(crouchdir == 1 && plr.crouchfactor < 1 && pos.Z + height < ceilingz)
+			{
+				CrouchMove(1);
+			}
+			else if(crouchdir == -1 && plr.crouchfactor > 0.5)
+			{
+				CrouchMove(-1);
+			}
+			// Handle sliding.
+			if(btn & BT_CROUCH)
+			{
+				// Slide!
+				friction = 1.08;
+				if(!(oldbtn & BT_CROUCH)) { justslide = 35; }
+				if(!(oldbtn & BT_CROUCH) && slideframes < 1 && isMoving)
+				{
+					// Sliding gives you a slight boost in your movement direction,
+					// but only if you haven't done a slide boost within the past second.
+					// No spam 4 u.
+					// If you don't input a direction, you don't get a slide.
+					Thrust(5,ang+angle);
+				}
+
+				// And pseudo-trimping.
+				if(vel.z<0 && abs(vel.z)*2.0>abs(floorz-pos.z) && justslide > 15)
+				{
+					Thrust(-vel.z*0.5,ang+angle);
+					vel.z *= 0.5;
+				}
+				slideframes = 35;
+			}
+			else if(slideframes < 15)
+			{
+				// Friction only resets a certain amount of time *after* leaving a slide.
+				friction = 0.99;
+			}
+
+		}
+		else
+		{
+			plr.uncrouch();
+		}
+	}
+
 
 	override void CheckJump()
 	{
