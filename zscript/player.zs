@@ -31,6 +31,35 @@ class HellRunner : DoomPlayer
 		}
 	}
 
+	action void A_RadiusPush(double range, double force)
+	{
+		let iter = BlockThingsIterator.Create(invoker,range);
+		while(iter.Next())
+		{
+			let mo = iter.thing;
+			if( !mo || mo == invoker || !mo.bSolid || Distance2D(mo) > range )
+			{
+				continue;
+			}
+
+			double ang = invoker.AngleTo(mo);
+
+			// Add 1/2 height to the other thing's pos, so it gets tossed upward.
+			Vector3 otherpos = mo.pos;
+			otherpos.z += mo.height/2.0;
+			Vector3 dif = Level.vec3Diff(otherpos, invoker.pos);
+			double xyLen = dif.xy.length();
+			double pit = atan2(dif.z,xyLen);
+
+			// And finally, fling the thing.
+			mo.Vel3DFromAngle(force * (xyLen/range), ang, pit);
+			if(mo.health>0 && mo.ResolveState("Pain"))
+			{
+				mo.SetState(mo.ResolveState("Pain"));
+			}
+		}
+	}
+
 	override void Tick()
 	{
 		Super.Tick();
@@ -49,7 +78,8 @@ class HellRunner : DoomPlayer
 		// Add a damage aura when the player is above a certain speed.
 		if(vel.Length()>15)
 		{
-			A_Explode(ceil(vel.Length()*(1.5+CountInv("PowerStrength"))),vel.Length()*3+radius,flags:XF_NOTMISSILE,fulldamagedistance:radius,damagetype:"speedforce");
+			//A_Explode(ceil(vel.Length()*(1.5+CountInv("PowerStrength"))),vel.Length()*3+radius,flags:XF_NOTMISSILE,fulldamagedistance:radius,damagetype:"speedforce");
+			A_RadiusPush(vel.Length()*3,vel.Length()*1+CountInv("PowerStrength"));
 		}
 
 		// Damage is healed...from your score.
