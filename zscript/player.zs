@@ -76,10 +76,10 @@ class HellRunner : DoomPlayer
 		}
 
 		// Add a damage aura when the player is above a certain speed.
-		if(vel.Length()>15)
+		if(vel.Length()>5)
 		{
 			//A_Explode(ceil(vel.Length()*(1.5+CountInv("PowerStrength"))),vel.Length()*3+radius,flags:XF_NOTMISSILE,fulldamagedistance:radius,damagetype:"speedforce");
-			A_RadiusPush(vel.Length()*3,vel.Length()*1+CountInv("PowerStrength"));
+			A_RadiusPush(radius+vel.Length()*3,vel.Length()*1.5+CountInv("PowerStrength"));
 		}
 
 		// Damage is healed...from your score.
