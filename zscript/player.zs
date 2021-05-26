@@ -1,3 +1,29 @@
+class FlyThru : Inventory
+{
+	// Makes things -SOLID until they spend a certain amount of time on the ground.
+	default
+	{
+		Inventory.Amount 35;
+		Inventory.MaxAmount 35;
+	}
+
+	override void DoEffect()
+	{
+		if(owner.countinv("FlyThru")>1)
+		{
+			owner.bTHRUACTORS = true;
+		}
+		else
+		{
+			owner.bTHRUACTORS = false;
+		}
+		if(owner.z <= owner.floorz)
+		{
+			owner.A_TakeInventory("FlyThru",1);
+		}
+	}
+}
+
 class HellRunner : DoomPlayer
 {
 	// The star of the show.
@@ -33,7 +59,10 @@ class HellRunner : DoomPlayer
 
 	action void A_RadiusPush(double range, double force)
 	{
-		let iter = BlockThingsIterator.Create(invoker,range);
+		double xp = invoker.x + (invoker.vel.x/2.0);
+		double yp = invoker.y + (invoker.vel.y/2.0);
+		double zp = invoker.z + (invoker.vel.z/2.0);
+		let iter = BlockThingsIterator.CreateFromPos(xp,yp,zp,invoker.height/2.0,range,false);
 		while(iter.Next())
 		{
 			let mo = iter.thing;
@@ -51,8 +80,11 @@ class HellRunner : DoomPlayer
 			double xyLen = dif.xy.length();
 			double pit = atan2(dif.z,xyLen);
 
+			double massmult = clamp(0.5,100.0/mo.mass,3);
+
 			// And finally, fling the thing.
-			mo.Vel3DFromAngle(force * (xyLen/range), ang, pit);
+			mo.Vel3DFromAngle(massmult * force * (xyLen/range), ang, pit);
+			mo.A_GiveInventory("FlyThru",35);
 			if(mo.health>0 && mo.ResolveState("Pain"))
 			{
 				mo.SetState(mo.ResolveState("Pain"));
