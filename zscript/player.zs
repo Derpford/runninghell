@@ -268,7 +268,7 @@ class HellRunner : DoomPlayer
 			{
 				// If you're crouching and you hit the jump button without pressing a movement key,
 				// you do a super jump.
-				vel.z += 20;
+				vel.z += 15*(1+(vel.length()/30.0));
 				jumpframes = 35;
 			}
 			else if(player.onground)
