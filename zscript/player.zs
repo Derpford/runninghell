@@ -83,7 +83,7 @@ class HellRunner : DoomPlayer
 			double massmult = clamp(0.5,100.0/mo.mass,3);
 
 			// And finally, fling the thing.
-			mo.Vel3DFromAngle(massmult * force * (xyLen/range), ang, pit);
+			mo.Vel3DFromAngle(massmult * force /* (xyLen/range)*/, ang, pit);
 			mo.A_GiveInventory("FlyThru",35);
 			if(mo.health>0 && mo.ResolveState("Pain"))
 			{
@@ -111,7 +111,7 @@ class HellRunner : DoomPlayer
 		if(vel.Length()>5)
 		{
 			//A_Explode(ceil(vel.Length()*(1.5+CountInv("PowerStrength"))),vel.Length()*3+radius,flags:XF_NOTMISSILE,fulldamagedistance:radius,damagetype:"speedforce");
-			A_RadiusPush(radius+vel.Length()*3,vel.Length()*1.5+CountInv("PowerStrength"));
+			A_RadiusPush(radius*(1+(vel.length()/5)),vel.Length()*1.5+CountInv("PowerStrength"));
 		}
 
 		// Damage is healed...from your score.
