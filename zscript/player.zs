@@ -332,7 +332,7 @@ class PulsarHand : Weapon
 				let pit = invoker.owner.pitch;
 				let ang = invoker.owner.angle;
 				let spd = invoker.owner.vel.Length();
-				invoker.owner.Vel3DFromAngle(-spd,ang,pit);
+				invoker.owner.Vel3DFromAngle(-spd*0.9,ang,pit);
 				// And now the shot.
 				A_FireProjectile("PulsarBlast");
 				A_StartSound("weapons/pulsf");
